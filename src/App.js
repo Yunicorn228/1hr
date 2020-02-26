@@ -1,26 +1,54 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import Form from './component/Form';
+import List from './component/List';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+	state = {
+		data: '',
+		todos: ['study'],
+	};
+
+	handleInputChange = ele => {
+		this.setState({
+			data: ele.target.value,
+		});
+	};
+
+	handleInputSubmit = () => {
+		const todos = this.state.todos;
+		todos.push(this.state.data);
+		this.setState({
+			todos: todos,
+			data: '',
+		});
+	};
+
+	handleInputDelet = i => {
+		const todos = this.state.todos;
+		todos.splice(i, 1);
+		this.setState({
+			todos,
+		});
+	};
+
+	render() {
+		return (
+			<div className='App'>
+				<List
+					handleInputDelet={this.handleInputDelet}
+					todos={this.state.todos}
+				/>
+				<Form
+					data={this.state.data}
+					handleInputSubmit={this.handleInputSubmit}
+					handleInputChange={this.handleInputChange}
+				/>
+			</div>
+		);
+	}
 }
 
 export default App;
